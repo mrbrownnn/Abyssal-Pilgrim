@@ -515,25 +515,8 @@ public class PlayerController : MonoBehaviour
         if (yAxis == 0 || (yAxis < 0 && Grounded()))
         {
             GameObject _fireBall = Instantiate(sideSpellFireball, SideAttackTransform.position, Quaternion.identity);
-           // maintain code
-            if( pState.lookingRight){
-                _fireBall.GetComponent<Rigidbody2D>().velocity = new Vector2.zero;
-            }
-            else
-            {
-                _fireBall.GetComponent<Rigidbody2D>().velocity = new Vector2(-10, 0);
-            }
-            // end maintain code
-            //flip fireball
-            if(pState.lookingRight)
-            {
-                _fireBall.transform.eulerAngles = Vector3.zero; // if facing right, TTigerstrike continues as per normal
-            }
-            else
-            {
-                _fireBall.transform.eulerAngles = new Vector2(_fireBall.transform.eulerAngles.x, 180); 
-                //if not facing right, rotate the fireball 180 deg
-            }
+           // need maintain
+            
             pState.recoilingX = true;
         }
 
