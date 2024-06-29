@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject sideSpellFireball;
     [SerializeField] GameObject upSpellExplosion;
     [SerializeField] GameObject downSpellFireball;
+    [SerializeField] float moveSpeedupSpell;
     [Space(5)]
 
 
@@ -509,16 +510,24 @@ public class PlayerController : MonoBehaviour
     {
         anim.SetBool("Casting", true);
         yield return new WaitForSeconds(0.15f);
-
+ 
         //side cast
         if (yAxis == 0 || (yAxis < 0 && Grounded()))
         {
             GameObject _fireBall = Instantiate(sideSpellFireball, SideAttackTransform.position, Quaternion.identity);
-
+           // maintain code
+            if( pState.lookingRight){
+                _fireBall.GetComponent<Rigidbody2D>().velocity = new Vector2.zero;
+            }
+            else
+            {
+                _fireBall.GetComponent<Rigidbody2D>().velocity = new Vector2(-10, 0);
+            }
+            // end maintain code
             //flip fireball
             if(pState.lookingRight)
             {
-                _fireBall.transform.eulerAngles = Vector3.zero; // if facing right, fireball continues as per normal
+                _fireBall.transform.eulerAngles = Vector3.zero; // if facing right, TTigerstrike continues as per normal
             }
             else
             {
@@ -531,9 +540,19 @@ public class PlayerController : MonoBehaviour
         //up cast
         else if( yAxis > 0)
         {
+            /*
             Instantiate(upSpellExplosion, transform);
             rb.velocity = Vector2.zero;
-            // 
+            //
+            */
+            {  
+                Instantiate(upSpellExplosion, transform.position, Quaternion.identity);
+               // add force for skill
+                rb.velocity = new Vector2(rb.velocity.x, moveSpeedupSpell);
+               
+           
+
+            }
         }
 
         //down cast
@@ -548,6 +567,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Casting", false);
         pState.casting = false;
     }
+
+    // default settings for cast spell, include upspell downspell and side spell
 
     public bool Grounded()
     {
