@@ -1,0 +1,3 @@
+lỗi animation với thuộc tính player_jump
+thiếu thuộc tính had exit time
+done :>
