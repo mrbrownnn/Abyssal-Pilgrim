@@ -4,6 +4,9 @@ using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
+using System.Diagnostics;
+using UnityEngine.Playables;
+using UnityEditor.Experimental.GraphView;
 
 public class PlayerController : MonoBehaviour
 {
@@ -187,7 +190,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D _other) //for up and down cast spell
     {
-        if(_other.GetComponent<Enemy>() != null && pState.casting)
+        if (_other.GetComponent<Enemy>() != null && pState.casting)
         {
             _other.GetComponent<Enemy>().EnemyHit(spellDamage, (_other.transform.position - transform.position).normalized, -recoilYSpeed);
         }
@@ -495,13 +498,13 @@ public class PlayerController : MonoBehaviour
             timeSinceCast += Time.deltaTime;
         }
 
-        if(Grounded())
+        if (Grounded())
         {
             //disable downspell if on the ground
             downSpellFireball.SetActive(false);
         }
         //if down spell is active, force player down until grounded
-        if(downSpellFireball.activeInHierarchy)
+        if (downSpellFireball.activeInHierarchy)
         {
             rb.velocity += downSpellForce * Vector2.down;
         }
@@ -510,36 +513,41 @@ public class PlayerController : MonoBehaviour
     {
         anim.SetBool("Casting", true);
         yield return new WaitForSeconds(0.15f);
- 
+
         //side cast
         if (yAxis == 0 || (yAxis < 0 && Grounded()))
         {
             GameObject _fireBall = Instantiate(sideSpellFireball, SideAttackTransform.position, Quaternion.identity);
-           // need maintain
-            
+
+            //flip fireball
+            if (pState.lookingRight)
+            {
+                _fireBall.transform.eulerAngles = Vector3.zero; // if facing right, TTigerstrike continues as per normal
+            }
+            else
+            {
+                _fireBall.transform.eulerAngles = new Vector2(_fireBall.transform.eulerAngles.x, 180);
+                //if not facing right, rotate the fireball 180 deg
+            }
             pState.recoilingX = true;
         }
 
         //up cast
-        else if( yAxis > 0)
+        else if (yAxis > 0)
         {
-            /*
+     
             Instantiate(upSpellExplosion, transform);
             rb.velocity = Vector2.zero;
-            //
-            */
-            {  
-                Instantiate(upSpellExplosion, transform.position, Quaternion.identity);
-               // add force for skill
-                rb.velocity = new Vector2(rb.velocity.x, moveSpeedupSpell);
-               
-           
+            
+           /* GameObject UpSpellExplosion = Instantiate(upSpellExplosion, UpAttackTransform.position, Quaternion.identity);
 
+            
+            UpSpellExplosion.transform.eulerAngles = Vector3.zero; // Settings for UpSpellExplosion
+        */
             }
-        }
 
         //down cast
-        else if(yAxis < 0 && !Grounded())
+        else if (yAxis < 0 && !Grounded())
         {
             downSpellFireball.SetActive(true);
             rb.velocity = Vector2.zero;
@@ -555,8 +563,8 @@ public class PlayerController : MonoBehaviour
 
     public bool Grounded()
     {
-        if (Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround) 
-            || Physics2D.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround) 
+        if (Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround)
+            || Physics2D.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround)
             || Physics2D.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround))
         {
             return true;
@@ -578,7 +586,7 @@ public class PlayerController : MonoBehaviour
 
                 pState.jumping = true;
             }
-            else if(!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump"))
+            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump"))
             {
                 pState.jumping = true;
 
