@@ -18,5 +18,6 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.Lerp(transform.position, PlayerController.Instance.transform.position + offset, followSpeed);
+        // take the lerp transform position of the player, so this camera will follow the player
     }
 }

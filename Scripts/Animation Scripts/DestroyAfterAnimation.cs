@@ -8,5 +8,6 @@ public class DestroyAfterAnimation : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+        // when deployed gameobject, the animation had been destroyed after the animation is done
     }
 }

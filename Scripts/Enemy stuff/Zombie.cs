@@ -30,6 +30,7 @@ public class Zombie : Enemy
     public override void EnemyHit(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         base.EnemyHit(_damageDone, _hitDirection, _hitForce);
+        // this function take recall the hitpoint of enemy, so the enemy can be destroyed when hitpoint <=0
     }
 
 }

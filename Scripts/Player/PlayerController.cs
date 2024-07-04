@@ -430,6 +430,9 @@ public class PlayerController : MonoBehaviour
         restoreTime = true;
         yield return new WaitForSeconds(_delay);
     }
+
+    // very important function
+
     public int Health
     {
         get { return health; }
@@ -444,6 +447,14 @@ public class PlayerController : MonoBehaviour
                     onHealthChangedCallback.Invoke();
                 }
             }
+           /* if ( Health <=0)
+            {
+                Debug.WriteLine(" Player is dead");
+                // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex
+                // the camera will follow the player, so the player will be dead
+           // had exit time to the dead animation, and return the camera to saved point player
+            }
+           */
         }
     }
     void Heal()
@@ -502,6 +513,7 @@ public class PlayerController : MonoBehaviour
         {
             //disable downspell if on the ground
             downSpellFireball.SetActive(false);
+
         }
         //if down spell is active, force player down until grounded
         if (downSpellFireball.activeInHierarchy)
