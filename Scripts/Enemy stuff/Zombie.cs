@@ -14,6 +14,13 @@ public class Zombie : Enemy
     {
         base.Awake();
     }
+    protected override void StartAwake(){
+        if(HealthBar != null)
+        {
+            HealthBar.SetMaxHealth(health);
+        }
+        StartAwake();
+    }
 
     // Update is called once per frame
     protected override void Update()
