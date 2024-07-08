@@ -7,37 +7,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4943340644396198268, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943340644396198269, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
-      propertyPath: m_Radius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943340644396198269, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943340644396198269, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943340644396198269, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4943340644396198270, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
       propertyPath: m_Name
-      value: Down Spell
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943340644396198270, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943340644396198270, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
-      propertyPath: m_TagString
-      value: Player
+      value: Down Spell Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4943340644396198271, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
       propertyPath: m_RootOrder
@@ -85,24 +57,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
---- !u!1 &8118539282693882200 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4943340644396198270, guid: fceca15de5ae3f54284c23ee2b3664e7, type: 3}
-  m_PrefabInstance: {fileID: 3760679784027940902}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1896962009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8118539282693882200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 763b6a5499929d84f850bba574772e8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  hitForce: 1
-  speed: 2
-  lifetime: 1
