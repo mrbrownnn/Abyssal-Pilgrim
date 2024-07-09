@@ -25,6 +25,8 @@ public class SceneFader : MonoBehaviour
     {
         float _alpha = _fadeDirection == FadeDirection.Out ? 1 : 0;
         float _fadeEndValue = _fadeDirection == FadeDirection.Out ? 0 : 1;
+
+        // three parameters: checking fadedirection, alpha value , in and out
       
         if (_fadeDirection == FadeDirection.Out)
         {
@@ -33,6 +35,7 @@ public class SceneFader : MonoBehaviour
                 SetColorImage(ref _alpha, _fadeDirection);
 
                 yield return null;
+                // set color image to alpha value ( sight and light)
             }
 
             fadeOutUIImage.enabled = false;
@@ -55,5 +58,6 @@ public class SceneFader : MonoBehaviour
         fadeOutUIImage.color = new Color(fadeOutUIImage.color.r, fadeOutUIImage.color.g, fadeOutUIImage.color.b, _alpha);
 
         _alpha += Time.deltaTime * (1 / fadeTime) * (_fadeDirection == FadeDirection.Out ? -1 : 1);
+        // default alpha value, then add time at scene time in and out
     }
 }

@@ -32,7 +32,7 @@ public class Zombie : Enemy
                 (transform.position, new Vector2(PlayerController.Instance.transform.position.x, transform.position.y),
                 speed * Time.deltaTime);
         }
-        // move towards player, need neft
+        // move towards player, need neft, can be neft sp= 0.7*speedplayer
     }
     public override void EnemyHit(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {

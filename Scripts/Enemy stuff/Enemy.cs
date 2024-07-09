@@ -43,6 +43,8 @@ public class Enemy : MonoBehaviour
                 recoilTimer = 0;
             }
         }
+        // this funtion is to check if the enemy is recoiling or not, if health enemy <=0; the enemy will be defeated
+        // need update funtion respawn enemy after destroyed then respawn after delta time
     }
 
     public virtual void EnemyHit(float _damageDone, Vector2 _hitDirection, float _hitForce)
@@ -52,6 +54,7 @@ public class Enemy : MonoBehaviour
         {
             rb.AddForce(-_hitForce * recoilFactor * _hitDirection);
         }
+        // take damage from player, if take damage from player, rigidbody enemy will pushback with hitforce
     }
     protected void OnCollisionStay2D(Collision2D _other)
     {
@@ -60,10 +63,11 @@ public class Enemy : MonoBehaviour
             Attack();
             PlayerController.Instance.HitStopTime(0, 5, 0.5f);
         }
+        // this funtion is checking considering the player,if player is invicible , dont take damage to player
     }
     protected virtual void Attack()
     {
         PlayerController.Instance.TakeDamage(damage);
     }
-    
+
 }
