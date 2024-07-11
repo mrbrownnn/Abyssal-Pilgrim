@@ -614,7 +614,7 @@ public class PlayerController : MonoBehaviour
 
             pState.jumping = false;
         }
-
+        // player can be jumping two time in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
         anim.SetBool("Jumping", !Grounded());
     }
 
@@ -639,5 +639,6 @@ public class PlayerController : MonoBehaviour
         {
             jumpBufferCounter--;
         }
+        // adding jump buffer and coyote time, help the player to jump easiera
     }
 }
