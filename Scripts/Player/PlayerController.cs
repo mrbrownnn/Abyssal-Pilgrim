@@ -307,11 +307,11 @@ public class PlayerController : MonoBehaviour
             {
                 objectsToHit[i].GetComponent<Enemy>().EnemyHit
                     (damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrength);
-
-                if (objectsToHit[i].CompareTag("Enemy"))
+               if (objectsToHit[i].CompareTag("Enemy") )
                 {
                     Mana += manaGain;
                 }
+             
             }
         }
     }

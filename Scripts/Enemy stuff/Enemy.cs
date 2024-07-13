@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -12,6 +13,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float speed;
 
     [SerializeField] protected float damage;
+
+    protected bool checkingDead = false;
 
     protected float recoilTimer;
     protected Rigidbody2D rb;
@@ -30,6 +33,7 @@ public class Enemy : MonoBehaviour
         if(health <= 0)
         {
             Destroy(gameObject);
+
         }
         if(isRecoiling)
         {

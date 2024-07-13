@@ -150,8 +150,8 @@ Camera:
   m_GameObject: {fileID: 41816152}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1285,7 +1285,7 @@ MonoBehaviour:
   manaSpellCost: 0.1
   timeBetweenCast: 1.5
   spellDamage: 5
-  downSpellForce: 5
+  downSpellForce: 10
   sideSpellFireball: {fileID: 641433206190210713, guid: 7e692a14911a5a742baaf83d3b1b9d05, type: 3}
   upSpellExplosion: {fileID: 600827475547757120, guid: 9d327a09d165a21408ffb3f1c658a200, type: 3}
   downSpellFireball: {fileID: 1896962004}
