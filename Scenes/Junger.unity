@@ -1242,10 +1242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfffb2574324e4c48a6c3e170d36d4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 20
-  jumpForce: 45
-  jumpBufferFrames: 8
-  coyoteTime: 0.1
+  walkSpeed: 15
+  jumpForce: 38
+  jumpBufferFrames: 4
+  coyoteTime: 0.05
   maxAirJumps: 1
   groundCheckPoint: {fileID: 625225118}
   groundCheckY: 0.2
@@ -1253,9 +1253,9 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  dashSpeed: 70
+  dashSpeed: 50
   dashTime: 0.2
-  dashCooldown: 0.35
+  dashCooldown: 0.45
   dashEffect: {fileID: 5451015282086862947, guid: ba5eb875b969f254888ea09e8beada80, type: 3}
   SideAttackTransform: {fileID: 1030190718}
   SideAttackArea: {x: 4.5, y: 3.5}
@@ -1266,29 +1266,30 @@ MonoBehaviour:
   attackableLayer:
     serializedVersion: 2
     m_Bits: 64
-  damage: 2
+  timeBetweenAttack: 0.5
+  damage: 1
   slashEffect: {fileID: 4715091655050610533, guid: c93c068abfdeb54498a3531105b9a90d, type: 3}
-  recoilXSteps: 5
-  recoilYSteps: 5
-  recoilXSpeed: 100
-  recoilYSpeed: 100
+  recoilXSteps: 2
+  recoilYSteps: 2
+  recoilXSpeed: 10
+  recoilYSpeed: 10
   health: 0
-  maxHealth: 10
+  maxHealth: 5
   bloodSpurt: {fileID: 8550120535757804210, guid: fb0b0f0efa4c00e4292df2add2544818, type: 3}
   hitFlashSpeed: 10
-  timeToHeal: 1
+  timeToHeal: 0.85
   manaStorage: {fileID: 1862918135}
-  mana: 0.5
+  mana: 0
   manaDrainSpeed: 0.2
-  manaGain: 0.3
+  manaGain: 0.1
   manaSpellCost: 0.1
-  timeBetweenCast: 0.5
-  spellDamage: 10
-  downSpellForce: 2
+  timeBetweenCast: 1.5
+  spellDamage: 5
+  downSpellForce: 5
   sideSpellFireball: {fileID: 641433206190210713, guid: 7e692a14911a5a742baaf83d3b1b9d05, type: 3}
   upSpellExplosion: {fileID: 600827475547757120, guid: 9d327a09d165a21408ffb3f1c658a200, type: 3}
   downSpellFireball: {fileID: 1896962004}
-  moveSpeedupSpell: 0
+  moveSpeedupSpell: 2
   pState: {fileID: 0}
 --- !u!95 &595064033
 Animator:

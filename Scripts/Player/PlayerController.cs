@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.Diagnostics;
 using UnityEngine.Playables;
 using UnityEditor.Experimental.GraphView;
+using System.Runtime.CompilerServices;
 
 public class PlayerController : MonoBehaviour
 {
@@ -64,7 +65,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask attackableLayer; //the layer the player can attack and recoil off of
 
-    private float timeBetweenAttack, timeSinceAttck;
+    [SerializeField] private float timeBetweenAttack; //the time between attacks
+    private float timeSinceAttck;
 
     [SerializeField] private float damage; //the damage the player does to an enemy
 
@@ -117,7 +119,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject sideSpellFireball;
     [SerializeField] GameObject upSpellExplosion;
     [SerializeField] GameObject downSpellFireball;
+    [Space(5)]
+
+
     [SerializeField] float moveSpeedupSpell;
+    // maintaince variables
     [Space(5)]
 
 
@@ -262,9 +268,11 @@ public class PlayerController : MonoBehaviour
     {
         timeSinceAttck += Time.deltaTime;
         if (attack && timeSinceAttck >= timeBetweenAttack)
+            // if the player is attacking and the time since the last attack is greater than the time between attacks
         {
             timeSinceAttck = 0;
             anim.SetTrigger("Attacking");
+            // if player attackind, set animation and reset the time since the last attack == 0
 
             if (yAxis == 0 || yAxis < 0 && Grounded())
             {
