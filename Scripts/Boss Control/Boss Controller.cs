@@ -20,8 +20,11 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject bossHealthBarTextOutline;
     [SerializeField] private GameObject bossHealthBarTextShadowOutline;
     [Space(7)]
+
+
     // init variable for boss attack
     [Header("Boss Attack")]
+
     [SerializeField] private bool bossAttack;
     [SerializeField] private float bossAttackperSecond;
     [SerializeField] private GameObject bossAttackRange;
@@ -31,11 +34,13 @@ public class BossController : MonoBehaviour
 
     [Space(7)]
 
-
+    [Header("Boss Movement")]
+    [SerializeField] private float bossWalkSpeed;
+    [SerializeField] private float bossJumpForce;
+    [SerializeField] private float timetoFly;
+    [Space(7)]
     // setting for skill 1
     [Header("Boss Skill1")]
-
-
     private float damageSkill1;
     private float skill1Cooldown;
     private float skill1Duration;
@@ -95,7 +100,9 @@ public class BossController : MonoBehaviour
     }
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+       // take the boss will be invisible
+       // dont take damage form player
+       // lets the boss summon zombie
     }
     private void OnDrawGizmos()
     {
@@ -122,6 +129,7 @@ public class BossController : MonoBehaviour
         bossHealthBarTextShadow.SetActive(true);
         bossHealthBarTextOutline.SetActive(true);
         bossHealthBarTextShadowOutline.SetActive(true);
+        // get this prefab to display boss hitpoint current 
     }
     private void BossAttack()
     {
@@ -147,7 +155,7 @@ public class BossController : MonoBehaviour
     {
         // start, awake boss here
     }
-    private void ShockWare()
+    private void ShockWave()
     {
         // deployed skill1 here
     }

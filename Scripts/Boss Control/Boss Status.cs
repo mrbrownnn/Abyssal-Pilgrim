@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossStatus : MonoBehaviour
 {
     public bool bossAttack;
-    public bool bossSkill;
+    public bool bossSkilling;
     public bool bossDaze;
     // boss have some health point, if player attack boss, boss will take double damage and daze a while
     public bool bossHeal;
@@ -17,8 +17,11 @@ public class BossStatus : MonoBehaviour
     // in skill 3, boss will summon n zombie to attack player
     // zombie have a special skill, if player attack zombie, player will reflect 100% damage done to zombie
     public bool bossTeleport;
+    public bool deadtimedeployedSkills;
+    // add deadtime when deployed the next skill
     public bool bossRecall;
     // if player leave this map, boss will recall to full health
-
+    public bool bossFlying;
+    // skill invisible and summon zombie, boss will fly
 
 }
