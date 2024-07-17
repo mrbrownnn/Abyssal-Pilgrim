@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour
     {
         timeSinceAttck += Time.deltaTime;
         if (attack && timeSinceAttck >= timeBetweenAttack)
-            // if the player is attacking and the time since the last attack is greater than the time between attacks
+        // if the player is attacking and the time since the last attack is greater than the time between attacks
         {
             timeSinceAttck = 0;
             anim.SetTrigger("Attacking");
@@ -307,26 +307,12 @@ public class PlayerController : MonoBehaviour
             {
                 objectsToHit[i].GetComponent<Enemy>().EnemyHit
                     (damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrength);
+
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
                     Mana += manaGain;
                 }
-
-
             }
-            /*
-             // if add layer boss, deployed here
-             if (objectsToHit[i].GetComponent <BossController>() != null)
-             {
-                 objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage, 
-                     (transform.position - objectsToHit[i].transform.position ).normalized,_recoilStrength);
-                 if (objectsToHit[i].CompareTag("Boss") &&  )
-                 {
-
-                 }
-             }
-         }
-            */
         }
     }
     void SlashEffectAtAngle(GameObject _slashEffect, int _effectAngle, Transform _attackTransform)
@@ -469,14 +455,14 @@ public class PlayerController : MonoBehaviour
                     onHealthChangedCallback.Invoke();
                 }
             }
-           /* if ( Health <=0)
-            {
-                Debug.WriteLine(" Player is dead");
-                // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex
-                // the camera will follow the player, so the player will be dead
-           // had exit time to the dead animation, and return the camera to saved point player
-            }
-           */
+            /* if ( Health <=0)
+             {
+                 Debug.WriteLine(" Player is dead");
+                 // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex
+                 // the camera will follow the player, so the player will be dead
+            // had exit time to the dead animation, and return the camera to saved point player
+             }
+            */
         }
     }
     void Heal()
@@ -569,16 +555,16 @@ public class PlayerController : MonoBehaviour
         //up cast
         else if (yAxis > 0)
         {
-     
+
             Instantiate(upSpellExplosion, transform);
             rb.velocity = Vector2.zero;
-            
-           /* GameObject UpSpellExplosion = Instantiate(upSpellExplosion, UpAttackTransform.position, Quaternion.identity);
 
-            
-            UpSpellExplosion.transform.eulerAngles = Vector3.zero; // Settings for UpSpellExplosion
-        */
-            }
+            /* GameObject UpSpellExplosion = Instantiate(upSpellExplosion, UpAttackTransform.position, Quaternion.identity);
+
+
+             UpSpellExplosion.transform.eulerAngles = Vector3.zero; // Settings for UpSpellExplosion
+         */
+        }
 
         //down cast
         else if (yAxis < 0 && !Grounded())
@@ -607,8 +593,6 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
-        // function return true if the player is on the ground, and false if the player is in the air
-        // function add layer checkpoint, theory is the player is on the ground if the raycast hit the ground
     }
 
     void Jump()

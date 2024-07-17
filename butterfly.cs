@@ -7,7 +7,6 @@ using UnityEditor.Rendering;
 using UnityEditor.UIElements;
 public class butterfly : Enemy
 {
-    [SerializeField] protected Rigidbody2D rb;
     [SerializeField] protected float weight;
     [SerializeField] protected float acceleration;
     [SerializeField] protected float maxSpeed;
@@ -23,7 +22,7 @@ public class butterfly : Enemy
     [SerializeField] private Vector2 DownAttackAreaButterfly; //how large the area of down attack is
 
    
-    protected virtual void Update()
+    protected override void Update()
     {
         
     }
@@ -34,7 +33,7 @@ public class butterfly : Enemy
             PlayerController.Instance.TakeDamage(damage);
         }
     }
-    protected void BalanceForce( float maxSpeed, float acceleration, float weight)
+    public void BalanceForce( float maxSpeed, float acceleration, float weight)
     {
         if (rb.velocity.magnitude < maxSpeed)
         {
