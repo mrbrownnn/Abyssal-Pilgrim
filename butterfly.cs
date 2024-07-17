@@ -39,6 +39,7 @@ public class butterfly : Enemy
         if (rb.velocity.magnitude < maxSpeed)
         {
             rb.AddForce(transform.right * acceleration * weight);
+            // add a lift force to the butterfly
         }
         new Vector3(0, 0, 0);
     }

@@ -307,22 +307,26 @@ public class PlayerController : MonoBehaviour
             {
                 objectsToHit[i].GetComponent<Enemy>().EnemyHit
                     (damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrength);
-               if (objectsToHit[i].CompareTag("Enemy") )
+                if (objectsToHit[i].CompareTag("Enemy"))
                 {
                     Mana += manaGain;
                 }
 
-             
+
             }
-            if (objectsToHit[i].GetComponent <BossController>() != null)
-            {
-                objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage, 
-                    (transform.position - objectsToHit[i].transform.position ).normalized,_recoilStrength);
-                if (objectsToHit[i].CompareTag("Boss") &&  )
-                {
-                    
-                }
-            }
+            /*
+             // if add layer boss, deployed here
+             if (objectsToHit[i].GetComponent <BossController>() != null)
+             {
+                 objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage, 
+                     (transform.position - objectsToHit[i].transform.position ).normalized,_recoilStrength);
+                 if (objectsToHit[i].CompareTag("Boss") &&  )
+                 {
+
+                 }
+             }
+         }
+            */
         }
     }
     void SlashEffectAtAngle(GameObject _slashEffect, int _effectAngle, Transform _attackTransform)
