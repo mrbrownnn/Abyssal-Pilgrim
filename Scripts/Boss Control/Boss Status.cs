@@ -22,6 +22,6 @@ public class BossStatus : MonoBehaviour
     public bool bossRecall;
     // if player leave this map, boss will recall to full health
     public bool bossFlying;
-    // skill invisible and summon zombie, boss will fly
+    // skill invisible and summon zombie, boss will
 
 }

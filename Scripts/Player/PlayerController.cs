@@ -311,7 +311,17 @@ public class PlayerController : MonoBehaviour
                 {
                     Mana += manaGain;
                 }
+
              
+            }
+            if (objectsToHit[i].GetComponent <BossController>() != null)
+            {
+                objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage, 
+                    (transform.position - objectsToHit[i].transform.position ).normalized,_recoilStrength);
+                if (objectsToHit[i].CompareTag("Boss") &&  )
+                {
+                    
+                }
             }
         }
     }
@@ -593,6 +603,8 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
+        // function return true if the player is on the ground, and false if the player is in the air
+        // function add layer checkpoint, theory is the player is on the ground if the raycast hit the ground
     }
 
     void Jump()

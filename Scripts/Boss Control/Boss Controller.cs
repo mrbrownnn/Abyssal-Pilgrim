@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.AI;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class BossController : MonoBehaviour
 {
@@ -94,6 +95,14 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform BossAwakedown; // the middle of the down awake area
     [SerializeField] private Vector2 BossAwakeDown; // how large the area of down awake is
     // Update is called once per frame
+    [Header("Shockwave settings")]
+    [SerializeField] private float shockwaveDamage;
+    [SerializeField] private float shockwaveForce;
+    [SerializeField] private float shockwaveDuration;
+    [SerializeField] private float shockwaveSpeed;
+    private Transform shockwaveRadius;
+    public BossStatus bStatus;
+
     void Update()
     {
         
@@ -158,5 +167,6 @@ public class BossController : MonoBehaviour
     private void ShockWave()
     {
         // deployed skill1 here
+
     }
 }
