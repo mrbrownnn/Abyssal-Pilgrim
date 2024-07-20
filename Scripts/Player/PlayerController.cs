@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private int airJumpCounter = 0; //keeps track of how many times the player has jumped in the air
     [SerializeField] private int maxAirJumps; //the max no. of air jumps
-
+    [SerializeField] private float waterResistanceCoefficient; //the coefficient of water resistance
     private float gravity; //stores the gravity scale at start
     [Space(5)]
 
@@ -594,6 +594,20 @@ public class PlayerController : MonoBehaviour
             return false;
         }
     }
+    // adding layer mask to check if the player is underwater or not
+
+    /* public bool Underwater()
+    {
+        if (Physics2D.Raycast(underWaterCheckPoint.position, Vector2.down, groundCheckY, whatIsWater))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    */
 
     void Jump()
     {
@@ -614,6 +628,30 @@ public class PlayerController : MonoBehaviour
 
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
             }
+            // need this scripts if adding layer watermask in deployed game
+            // if player underwater, the player will jump lower than normal, move slower than normal
+            // player can jump two times in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
+            
+
+            // player cant jump when underwater,if player checkgrounded, player can jump
+            /*
+            if (!pState.jumping)
+        {
+            if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
+            {
+                rb.velocity = new Vector3 (rb.velocity.x *waterResistanceCoefficient, jumpForce*waterResistanceCoefficient);
+
+                pState.jumping = true;
+            }
+            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump"))
+            {
+                pState.jumping = true;
+
+                airJumpCounter++;
+
+                rb.velocity = new Vector3(rb.velocity.x * waterResistanceCoefficient, jumpForce * waterResistanceCoefficient);
+            }
+             */
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
@@ -647,6 +685,27 @@ public class PlayerController : MonoBehaviour
         {
             jumpBufferCounter--;
         }
+        // if deployed watermask, use this scripts
+        /*  if (Underwater())
+        {
+            pState.jumping = false;
+            coyoteTimeCounter = coyoteTime;
+            airJumpCounter = 0;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumpBufferCounter = jumpBufferFrames;
+        }
+        else
+        {
+            jumpBufferCounter--;
+        }
+        */
         // adding jump buffer and coyote time, help the player to jump easiera
     }
 }
