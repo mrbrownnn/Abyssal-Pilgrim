@@ -877,6 +877,7 @@ MonoBehaviour:
   jumpBufferFrames: 8
   coyoteTime: 0.1
   maxAirJumps: 1
+  waterResistanceCoefficient: 0
   groundCheckPoint: {fileID: 625225118}
   groundCheckY: 0.2
   groundCheckX: 0.5
@@ -896,7 +897,7 @@ MonoBehaviour:
   attackableLayer:
     serializedVersion: 2
     m_Bits: 64
-  timeBetweenAttack: 0
+  timeBetweenAttack: 0.5
   damage: 2
   slashEffect: {fileID: 4715091655050610533, guid: c93c068abfdeb54498a3531105b9a90d, type: 3}
   recoilXSteps: 5
