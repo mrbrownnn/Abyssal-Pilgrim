@@ -82,8 +82,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int recoilXSteps = 5; //how many FixedUpdates() the player recoils horizontally for
     [SerializeField] private int recoilYSteps = 5; //how many FixedUpdates() the player recoils vertically for
 
-    [SerializeField] private float recoilXSpeed = 100; //the speed of horizontal recoil
-    [SerializeField] private float recoilYSpeed = 100; //the speed of vertical recoil
+    [SerializeField] private float recoilAirXSpeed = 100; //the speed of horizontal recoil
+    [SerializeField] private float recoilAirYSpeed = 100; //the speed of vertical recoil
 
     private int stepsXRecoiled, stepsYRecoiled; //the no. of steps recoiled horizontally and verticall
     [Space(5)]
@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_other.GetComponent<Enemy>() != null && pState.casting)
         {
-            _other.GetComponent<Enemy>().EnemyHit(spellDamage, (_other.transform.position - transform.position).normalized, -recoilYSpeed);
+            _other.GetComponent<Enemy>().EnemyHit(spellDamage, (_other.transform.position - transform.position).normalized, -recoilAirYSpeed);
         }
     }
 
@@ -276,17 +276,17 @@ public class PlayerController : MonoBehaviour
 
             if (yAxis == 0 || yAxis < 0 && Grounded())
             {
-                Hit(SideAttackTransform, SideAttackArea, ref pState.recoilingX, recoilXSpeed);
+                Hit(SideAttackTransform, SideAttackArea, ref pState.recoilingX, recoilAirXSpeed);
                 Instantiate(slashEffect, SideAttackTransform);
             }
             else if (yAxis > 0)
             {
-                Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY, recoilYSpeed);
+                Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY, recoilAirYSpeed);
                 SlashEffectAtAngle(slashEffect, 80, UpAttackTransform);
             }
             else if (yAxis < 0 && !Grounded())
             {
-                Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, recoilYSpeed);
+                Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, recoilAirYSpeed);
                 SlashEffectAtAngle(slashEffect, -90, DownAttackTransform);
             }
         }
@@ -327,11 +327,11 @@ public class PlayerController : MonoBehaviour
         {
             if (pState.lookingRight)
             {
-                rb.velocity = new Vector2(-recoilXSpeed, 0);
+                rb.velocity = new Vector2(-recoilAirXSpeed, 0);
             }
             else
             {
-                rb.velocity = new Vector2(recoilXSpeed, 0);
+                rb.velocity = new Vector2(recoilAirXSpeed, 0);
             }
         }
 
@@ -340,11 +340,11 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 0;
             if (yAxis < 0)
             {
-                rb.velocity = new Vector2(rb.velocity.x, recoilYSpeed);
+                rb.velocity = new Vector2(rb.velocity.x, recoilAirYSpeed);
             }
             else
             {
-                rb.velocity = new Vector2(rb.velocity.x, -recoilYSpeed);
+                rb.velocity = new Vector2(rb.velocity.x, -recoilAirYSpeed);
             }
             airJumpCounter = 0;
         }
