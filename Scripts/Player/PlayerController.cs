@@ -641,7 +641,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
                 pState.JumpSecondTime = true;
                 // set bool to jump a second time
-                TimetodeployedSecondjump -= Time.deltaTime;
+                TimetodeployedSecondjump -= Time.deltaTime; // not working, need to fix
                 // if player deployed the secondtime, the time will be reset
             }
             // need this scripts if adding layer watermask in deployed game
