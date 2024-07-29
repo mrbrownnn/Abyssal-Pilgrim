@@ -8,6 +8,7 @@ using System.Diagnostics;
 using UnityEngine.Playables;
 using UnityEditor.Experimental.GraphView;
 using System.Runtime.CompilerServices;
+using UnityEditor.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,6 +28,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coyoteTime; ////sets the max amount of frames the Grounded() bool is stored
 
     private int airJumpCounter = 0; //keeps track of how many times the player has jumped in the air
+
+    [SerializeField] private float TimetodeployedSecondjump;
+
+    // if CompareTag "Grounded" is true, player can jump a lot of, so need set time when player jump second time in the air
+    
+    private bool UnlockDoubleJump;
+    // tag an feature, if player have this achiement, player can jump two times in the air
+
+    // if player 
     [SerializeField] private int maxAirJumps; //the max no. of air jumps
     [SerializeField] private float waterResistanceCoefficient; //the coefficient of water resistance
     private float gravity; //stores the gravity scale at start
@@ -588,6 +598,7 @@ public class PlayerController : MonoBehaviour
             || Physics2D.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround))
         {
             return true;
+            //check !grounded or not
         }
         else
         {
@@ -619,14 +630,19 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
 
                 pState.jumping = true;
+                // jump a first time
             }
-            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump"))
+            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump") && TimetodeployedSecondjump <= 0)
             {
                 pState.jumping = true;
 
                 airJumpCounter++;
 
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
+                pState.JumpSecondTime = true;
+                // set bool to jump a second time
+                TimetodeployedSecondjump -= Time.deltaTime;
+                // if player deployed the secondtime, the time will be reset
             }
             // need this scripts if adding layer watermask in deployed game
             // if player underwater, the player will jump lower than normal, move slower than normal
