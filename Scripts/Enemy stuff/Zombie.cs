@@ -5,7 +5,7 @@ using UnityEngine;
 public class Zombie : Enemy
 {
     // Start is called before the first frame update
-    void Start()
+   protected override void Start()
     {
         rb.gravityScale = 12f;        
     }
@@ -14,14 +14,14 @@ public class Zombie : Enemy
     {
         base.Awake();
     }
-    protected override void StartAwake(){
+   /* protected override void StartAwake(){
         if(HealthBar != null)
         {
             HealthBar.SetMaxHealth(health);
         }
         StartAwake();
     }
-
+   */
     // Update is called once per frame
     protected override void Update()
     {
@@ -32,7 +32,7 @@ public class Zombie : Enemy
                 (transform.position, new Vector2(PlayerController.Instance.transform.position.x, transform.position.y),
                 speed * Time.deltaTime);
         }
-        // move towards player, need neft
+        // move towards player, need neft, can be neft sp= 0.7*speedplayer
     }
     public override void EnemyHit(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {

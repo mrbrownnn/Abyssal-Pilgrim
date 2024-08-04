@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using System.Diagnostics;
 using UnityEngine.Playables;
 using UnityEditor.Experimental.GraphView;
+using System.Runtime.CompilerServices;
+using UnityEditor.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,8 +28,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coyoteTime; ////sets the max amount of frames the Grounded() bool is stored
 
     private int airJumpCounter = 0; //keeps track of how many times the player has jumped in the air
-    [SerializeField] private int maxAirJumps; //the max no. of air jumps
 
+    [SerializeField] private float TimetodeployedSecondjump;
+
+    // if CompareTag "Grounded" is true, player can jump a lot of, so need set time when player jump second time in the air
+    
+    private bool UnlockDoubleJump;
+    // tag an feature, if player have this achiement, player can jump two times in the air
+
+    // if player 
+    [SerializeField] private int maxAirJumps; //the max no. of air jumps
+    [SerializeField] private float waterResistanceCoefficient; //the coefficient of water resistance
     private float gravity; //stores the gravity scale at start
     [Space(5)]
 
@@ -64,7 +75,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask attackableLayer; //the layer the player can attack and recoil off of
 
-    private float timeBetweenAttack, timeSinceAttck;
+    [SerializeField] private float timeBetweenAttack; //the time between attacks
+    private float timeSinceAttck;
 
     [SerializeField] private float damage; //the damage the player does to an enemy
 
@@ -80,8 +92,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int recoilXSteps = 5; //how many FixedUpdates() the player recoils horizontally for
     [SerializeField] private int recoilYSteps = 5; //how many FixedUpdates() the player recoils vertically for
 
-    [SerializeField] private float recoilXSpeed = 100; //the speed of horizontal recoil
-    [SerializeField] private float recoilYSpeed = 100; //the speed of vertical recoil
+    [SerializeField] private float recoilAirXSpeed = 100; //the speed of horizontal recoil
+    [SerializeField] private float recoilAirYSpeed = 100; //the speed of vertical recoil
 
     private int stepsXRecoiled, stepsYRecoiled; //the no. of steps recoiled horizontally and verticall
     [Space(5)]
@@ -117,7 +129,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject sideSpellFireball;
     [SerializeField] GameObject upSpellExplosion;
     [SerializeField] GameObject downSpellFireball;
+    [Space(5)]
+
+
     [SerializeField] float moveSpeedupSpell;
+    // maintaince variables
     [Space(5)]
 
 
@@ -192,7 +208,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_other.GetComponent<Enemy>() != null && pState.casting)
         {
-            _other.GetComponent<Enemy>().EnemyHit(spellDamage, (_other.transform.position - transform.position).normalized, -recoilYSpeed);
+            _other.GetComponent<Enemy>().EnemyHit(spellDamage, (_other.transform.position - transform.position).normalized, -recoilAirYSpeed);
         }
     }
 
@@ -262,23 +278,25 @@ public class PlayerController : MonoBehaviour
     {
         timeSinceAttck += Time.deltaTime;
         if (attack && timeSinceAttck >= timeBetweenAttack)
+        // if the player is attacking and the time since the last attack is greater than the time between attacks
         {
             timeSinceAttck = 0;
             anim.SetTrigger("Attacking");
+            // if player attackind, set animation and reset the time since the last attack == 0
 
             if (yAxis == 0 || yAxis < 0 && Grounded())
             {
-                Hit(SideAttackTransform, SideAttackArea, ref pState.recoilingX, recoilXSpeed);
+                Hit(SideAttackTransform, SideAttackArea, ref pState.recoilingX, recoilAirXSpeed);
                 Instantiate(slashEffect, SideAttackTransform);
             }
             else if (yAxis > 0)
             {
-                Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY, recoilYSpeed);
+                Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY, recoilAirYSpeed);
                 SlashEffectAtAngle(slashEffect, 80, UpAttackTransform);
             }
             else if (yAxis < 0 && !Grounded())
             {
-                Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, recoilYSpeed);
+                Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, recoilAirYSpeed);
                 SlashEffectAtAngle(slashEffect, -90, DownAttackTransform);
             }
         }
@@ -319,11 +337,11 @@ public class PlayerController : MonoBehaviour
         {
             if (pState.lookingRight)
             {
-                rb.velocity = new Vector2(-recoilXSpeed, 0);
+                rb.velocity = new Vector2(-recoilAirXSpeed, 0);
             }
             else
             {
-                rb.velocity = new Vector2(recoilXSpeed, 0);
+                rb.velocity = new Vector2(recoilAirXSpeed, 0);
             }
         }
 
@@ -332,11 +350,11 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 0;
             if (yAxis < 0)
             {
-                rb.velocity = new Vector2(rb.velocity.x, recoilYSpeed);
+                rb.velocity = new Vector2(rb.velocity.x, recoilAirYSpeed);
             }
             else
             {
-                rb.velocity = new Vector2(rb.velocity.x, -recoilYSpeed);
+                rb.velocity = new Vector2(rb.velocity.x, -recoilAirYSpeed);
             }
             airJumpCounter = 0;
         }
@@ -447,14 +465,14 @@ public class PlayerController : MonoBehaviour
                     onHealthChangedCallback.Invoke();
                 }
             }
-           /* if ( Health <=0)
-            {
-                Debug.WriteLine(" Player is dead");
-                // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex
-                // the camera will follow the player, so the player will be dead
-           // had exit time to the dead animation, and return the camera to saved point player
-            }
-           */
+            /* if ( Health <=0)
+             {
+                 Debug.WriteLine(" Player is dead");
+                 // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex
+                 // the camera will follow the player, so the player will be dead
+            // had exit time to the dead animation, and return the camera to saved point player
+             }
+            */
         }
     }
     void Heal()
@@ -547,16 +565,16 @@ public class PlayerController : MonoBehaviour
         //up cast
         else if (yAxis > 0)
         {
-     
+
             Instantiate(upSpellExplosion, transform);
             rb.velocity = Vector2.zero;
-            
-           /* GameObject UpSpellExplosion = Instantiate(upSpellExplosion, UpAttackTransform.position, Quaternion.identity);
 
-            
-            UpSpellExplosion.transform.eulerAngles = Vector3.zero; // Settings for UpSpellExplosion
-        */
-            }
+            /* GameObject UpSpellExplosion = Instantiate(upSpellExplosion, UpAttackTransform.position, Quaternion.identity);
+
+
+             UpSpellExplosion.transform.eulerAngles = Vector3.zero; // Settings for UpSpellExplosion
+         */
+        }
 
         //down cast
         else if (yAxis < 0 && !Grounded())
@@ -580,12 +598,27 @@ public class PlayerController : MonoBehaviour
             || Physics2D.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround))
         {
             return true;
+            //check !grounded or not
         }
         else
         {
             return false;
         }
     }
+    // adding layer mask to check if the player is underwater or not
+
+    /* public bool Underwater()
+    {
+        if (Physics2D.Raycast(underWaterCheckPoint.position, Vector2.down, groundCheckY, whatIsWater))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    */
 
     void Jump()
     {
@@ -597,6 +630,34 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
 
                 pState.jumping = true;
+                // jump a first time
+            }
+            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump") && TimetodeployedSecondjump <= 0)
+            {
+                pState.jumping = true;
+
+                airJumpCounter++;
+
+                rb.velocity = new Vector3(rb.velocity.x, jumpForce);
+                pState.JumpSecondTime = true;
+                // set bool to jump a second time
+                TimetodeployedSecondjump -= Time.deltaTime; // not working, need to fix
+                // if player deployed the secondtime, the time will be reset
+            }
+            // need this scripts if adding layer watermask in deployed game
+            // if player underwater, the player will jump lower than normal, move slower than normal
+            // player can jump two times in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
+            
+
+            // player cant jump when underwater,if player checkgrounded, player can jump
+            /*
+            if (!pState.jumping)
+        {
+            if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
+            {
+                rb.velocity = new Vector3 (rb.velocity.x *waterResistanceCoefficient, jumpForce*waterResistanceCoefficient);
+
+                pState.jumping = true;
             }
             else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump"))
             {
@@ -604,8 +665,9 @@ public class PlayerController : MonoBehaviour
 
                 airJumpCounter++;
 
-                rb.velocity = new Vector3(rb.velocity.x, jumpForce);
+                rb.velocity = new Vector3(rb.velocity.x * waterResistanceCoefficient, jumpForce * waterResistanceCoefficient);
             }
+             */
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
@@ -614,7 +676,7 @@ public class PlayerController : MonoBehaviour
 
             pState.jumping = false;
         }
-
+        // player can be jumping two time in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
         anim.SetBool("Jumping", !Grounded());
     }
 
@@ -639,5 +701,27 @@ public class PlayerController : MonoBehaviour
         {
             jumpBufferCounter--;
         }
+        // if deployed watermask, use this scripts
+        /*  if (Underwater())
+        {
+            pState.jumping = false;
+            coyoteTimeCounter = coyoteTime;
+            airJumpCounter = 0;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumpBufferCounter = jumpBufferFrames;
+        }
+        else
+        {
+            jumpBufferCounter--;
+        }
+        */
+        // adding jump buffer and coyote time, help the player to jump easiera
     }
 }
