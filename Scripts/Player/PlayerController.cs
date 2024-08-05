@@ -641,8 +641,10 @@ public class PlayerController : MonoBehaviour
 
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
                 pState.JumpSecondTime = true;
-                // set bool to jump a second time
-                TimetodeployedSecondjump -= Time.deltaTime; // not working, need to fix
+               
+                    // set bool to jump a second time
+                    TimetodeployedSecondjump -= Time.deltaTime; 
+                
                 // if player deployed the secondtime, the time will be reset
                 // backtracking when the first jump
             }
