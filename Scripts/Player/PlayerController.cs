@@ -9,6 +9,7 @@ using UnityEngine.Playables;
 using UnityEditor.Experimental.GraphView;
 using System.Runtime.CompilerServices;
 using UnityEditor.Rendering;
+using Unity.Mathematics;
 
 public class PlayerController : MonoBehaviour
 {
@@ -643,6 +644,7 @@ public class PlayerController : MonoBehaviour
                 // set bool to jump a second time
                 TimetodeployedSecondjump -= Time.deltaTime; // not working, need to fix
                 // if player deployed the secondtime, the time will be reset
+                // backtracking when the first jump
             }
             // need this scripts if adding layer watermask in deployed game
             // if player underwater, the player will jump lower than normal, move slower than normal
@@ -676,7 +678,7 @@ public class PlayerController : MonoBehaviour
 
             pState.jumping = false;
         }
-        // player can be jumping two time in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
+        // player can be jumping two time in the air, so this can be used like skill, can be unlocked when player defeat the boss/level up
         anim.SetBool("Jumping", !Grounded());
     }
 
