@@ -637,15 +637,13 @@ public class PlayerController : MonoBehaviour
                 // adding conditional when player have ability double jump
             {
                 pState.jumping = true;
-
-                airJumpCounter++;
-
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
                 pState.jumping = true;
                 /*
                  when active ability
                 pState.JumpSecondTime = true;
                 */
+                // bug this feature
                 
             }
             // need this scripts if adding layer watermask in deployed game
