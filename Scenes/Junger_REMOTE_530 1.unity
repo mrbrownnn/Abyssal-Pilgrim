@@ -7635,7 +7635,7 @@ GameObject:
   - component: {fileID: 1913589915}
   - component: {fileID: 1913589917}
   - component: {fileID: 1913589916}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mossy - TileSet_0 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
