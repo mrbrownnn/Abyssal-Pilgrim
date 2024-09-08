@@ -636,7 +636,6 @@ public class PlayerController : MonoBehaviour
             else if ( pState.jumping=true && !Grounded() && Input.GetButtonDown("Jump")  )
                 // adding conditional when player have ability double jump
             {
-                pState.jumping = true;
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
                 pState.jumping = true;
                 /*
