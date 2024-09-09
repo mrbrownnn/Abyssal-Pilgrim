@@ -13,5 +13,5 @@ public class PlayerStateList : MonoBehaviour
     public bool casting;
     public bool downSpell;
     public bool upSpell;
-    public bool JumpSecondTime; // need to fix
+    public bool jumpOnce;
 }

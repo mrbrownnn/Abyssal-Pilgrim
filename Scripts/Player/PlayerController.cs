@@ -631,29 +631,28 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
 
                 pState.jumping = true;
+                pState.jumpOnce = true;
                 // jump a first time
             }
-            else if ( pState.jumping=true && !Grounded() && Input.GetButtonDown("Jump")  )
+            else if (!Grounded() && Input.GetButtonDown("Jump") && pState.jumpOnce ==true)
                 // adding conditional when player have ability double jump
             {
                 pState.jumping = true;
-
-                airJumpCounter++;
-
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
-                pState.jumping = true;
-                /*
-                 when active ability
-                pState.JumpSecondTime = true;
-                */
-                
+                pState.jumpOnce = false;
             }
+            /*
+             when active ability
+            pState.JumpSecondTime = true;
+            */
+            pState.jumping = false;
+        
             // need this scripts if adding layer watermask in deployed game
             // if player underwater, the player will jump lower than normal, move slower than normal
             // player can jump two times in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
             
 
-            // player cant jump when underwater,if player checkgrounded, player can jump
+            // player cant jump when underwater,if player checkgrounded, player cazn jump
             /*
             if (!pState.jumping)
         {
