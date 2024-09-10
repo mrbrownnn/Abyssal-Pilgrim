@@ -124,6 +124,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float manaSpellCost = 0.3f;
     [SerializeField] float timeBetweenCast = 0.5f;
     float timeSinceCast;
+    // set limit time when spam skill continously
     [SerializeField] float spellDamage; //upspellexplosion and downspellfireball
     [SerializeField] float downSpellForce; // khai báo lực đẩy khi cast down spell
     //spell cast objects
@@ -135,9 +136,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float moveSpeedupSpell;
     // maintaince variables
-    [Space(5)]
-
-
+    
+    /// <summary>
+    /// //////////////////////
+    /// </summary>
     [HideInInspector] public PlayerStateList pState;
     private Animator anim;
     private Rigidbody2D rb;
