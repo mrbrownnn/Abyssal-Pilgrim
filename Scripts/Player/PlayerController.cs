@@ -281,6 +281,8 @@ public class PlayerController : MonoBehaviour
     {
         timeSinceAttck += Time.deltaTime;
         if (attack && timeSinceAttck >= timeBetweenAttack)
+            // add feature cooldown variable timebwattk when player uplever/ up skill
+            // can be setting in Editor
         // if the player is attacking and the time since the last attack is greater than the time between attacks
         {
             timeSinceAttck = 0;
