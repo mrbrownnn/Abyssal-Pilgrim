@@ -31,6 +31,21 @@ public class DownSpellController : MonoBehaviour
     {
          // transform.position += speed * transform.right;
     }
+// Update is called once per frame
+// New feature
+/*
+    private void HitUpdate()
+    {
+        if(PlayerController.Instance.GetComponent<Rigidbody2D>().GetComponentsInChildren<Transform>().Length > 0)
+        {
+            transform.position = PlayerController.Instance.GetComponent<Rigidbody2D>().GetComponentsInChildren<Transform>()[0].position;
+        }
+        else
+        {
+            transform.position = PlayerController.Instance.transform.position;
+        }
+    }
+    */
     //detect hit
     private void OnTriggerEnter2D(Collider2D _other)
     {

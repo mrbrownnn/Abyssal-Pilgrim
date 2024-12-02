@@ -10,6 +10,7 @@ using UnityEditor.Experimental.GraphView;
 using System.Runtime.CompilerServices;
 using UnityEditor.Rendering;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -191,7 +192,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         GetInputs();
         UpdateJumpVariables();
@@ -248,7 +249,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Walking", rb.velocity.x != 0 && Grounded());
     }
 
-    void StartDash()
+    protected void StartDash()
     {
         if (Input.GetButtonDown("Dash") && canDash && !dashed)
         {
@@ -277,7 +278,7 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
 
-    void Attack()
+    protected void Attack()
     {
         timeSinceAttck += Time.deltaTime;
         if (attack && timeSinceAttck >= timeBetweenAttack)
@@ -592,6 +593,25 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.35f);
         anim.SetBool("Casting", false);
         pState.casting = false;
+        /*
+    try
+    {
+        downSpellFireball.SetActive(true);
+    }
+    catch
+    {
+        // if downspell not working
+        Mana += manaSpellCost;
+        anim.SetBool("Casting", false);
+        pState.casting = false;
+        IEnumerator enumerator = CastCoroutine();
+        while (enumerator.MoveNext())
+        {
+            yield break;
+        }
+    }
+    // using for try catch when downspell not working+
+    */
     }
 
     // default settings for cast spell, include upspell downspell and side spell
@@ -656,7 +676,7 @@ public class PlayerController : MonoBehaviour
             // player can jump two times in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
             
 
-            // player cant jump when underwater,if player checkgrounded, player cazn jump
+            // player cant jump when underwater,if player checkgrounded, player can jump
             /*
             if (!pState.jumping)
         {
@@ -729,6 +749,6 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter--;
         }
         */
-        // adding jump buffer and coyote time, help the player to jump easiera
+        // adding jump buffer and coyote time, help the player to jump easier
     }
 }
