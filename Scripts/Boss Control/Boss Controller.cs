@@ -5,12 +5,26 @@ using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using Microsoft.Win32.SafeHandles;
 using UnityEngine.AI;
 using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 public class BossController : MonoBehaviour
 {
+    private BossStatus bS;
+
+
+    private Rigidbody2D rbboss;
+    private Animator animb;
+    private float gravity = 10f;
+    private Transform shockwaveRadius;
+    public BossStatus bStatus;
+    private int numAttack = 0; // need be removed in the future
+    public event Action onHealthChangedCallback;
+    
+    [Space(10)]
     // init variable for gameobject boss
     [Header("Boss Health")]
     [SerializeField] private GameObject boss;
@@ -20,6 +34,8 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject bossHealthBarTextShadow;
     [SerializeField] private GameObject bossHealthBarTextOutline;
     [SerializeField] private GameObject bossHealthBarTextShadowOutline;
+    [SerializeField] private float bosshealth;
+    [SerializeField] private float maxbossHealth;
     [Space(7)]
 
 
@@ -100,8 +116,16 @@ public class BossController : MonoBehaviour
     [SerializeField] private float shockwaveForce;
     [SerializeField] private float shockwaveDuration;
     [SerializeField] private float shockwaveSpeed;
-    private Transform shockwaveRadius;
-    public BossStatus bStatus;
+
+    [Header("Teleport settings")] 
+    [SerializeField] private float teleport;
+    [SerializeField] private int limitTeleport;
+    [SerializeField] private float teleportSpeed;
+    [SerializeField] private float teleportLength;
+    
+    
+    
+    
 
     void Update()
     {
@@ -149,6 +173,11 @@ public class BossController : MonoBehaviour
                 if (bossAttackperSecond > 0)
                 {
                     bossAttackperSecond -= Time.deltaTime;
+                    numAttack++;
+                    if (numAttack % 3 == 0)
+                    {
+                        BossDaze();
+                    }
                 }
                 else
                 {
@@ -164,9 +193,92 @@ public class BossController : MonoBehaviour
     {
         // start, awake boss here
     }
-    private void ShockWave()
-    {
-        // deployed skill1 here
 
+    private void BossAwake()
+    {
+        // if player in the boss awake area, boss will awake and attack player
+        if (CompareTag("Player"))
+        {
+            if (bossAttack)
+            {
+                if (bossAttackperSecond > 0)
+                {
+                    bossAttackperSecond -= Time.deltaTime;
+                    numAttack++;
+                    if (numAttack % 3 == 0)
+                    {
+                        BossDaze();
+                    }
+                }
+                else
+                {
+                    bossAttackperSecond = 1;
+                    bossAttackRange.SetActive(true);
+                    // StartCoroutine(BossAttack());
+                    // need coroutine bossattack add to animation
+                }
+            }
+        }
     }
+
+    IEnumerator BossDaze()
+    {
+        bS.teleport = false;
+        yield return new WaitForSeconds(0.5f);
+        animb.SetTrigger("BossDaze");
+        rbboss.velocity = new Vector2();
+        yield return new WaitForSeconds(1f);
+        rbboss.gravityScale = 0;
+        rbboss.velocity = new Vector2(transform.localPosition.x, teleportSpeed *(transform.localPosition.y));
+        if (CompareTag("Grounded") == true)
+        {
+            Instantiate(boss, transform, false);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    IEnumerable movementBoss()
+    {
+        while (true)
+        {
+            if (bS.bossFlying)
+            {
+                rbboss.gravityScale = 0;
+                rbboss.velocity = new Vector2(transform.localPosition.x, teleportSpeed * (transform.localPosition.y));
+                if (CompareTag("Grounded") == true)
+                {
+                    Instantiate(boss, transform, false);
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+            else
+            {
+                rbboss.gravityScale = gravity;
+                // set default grativy =10f, can be setting on Trigger
+            }
+        }
+    }
+    public int Health
+    {
+        get { return (int)bosshealth; }
+        set
+        {
+            if (bosshealth != value)
+            {
+                bosshealth = Mathf.Clamp(value, 0, maxbossHealth);
+
+                if ( onHealthChangedCallback != null)
+                {
+                    onHealthChangedCallback.Invoke();
+                    while(bosshealth <= 0)
+                    {
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                        Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+                        bS.isDead = true;
+                    }
+                }
+            }
+        }
+        // for boss Awake
+    }
+   
 }
