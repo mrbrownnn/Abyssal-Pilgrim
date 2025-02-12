@@ -13,14 +13,17 @@ using UnityEngine.UIElements;
 
 public class BossController : MonoBehaviour
 {
+    // for global variable
     private BossStatus bS;
-
-
     private Rigidbody2D rbboss;
     private Animator animb;
     private float gravity = 10f;
     private Transform shockwaveRadius;
     public BossStatus bStatus;
+    private PlayerController player;
+    private SceneManager sceneManager;
+    private SceneFader.FadeDirection fadeDirection;
+    private LightEditor lightEditor;
     private int numAttack = 0; // need be removed in the future
     public event Action onHealthChangedCallback;
     
@@ -95,7 +98,6 @@ public class BossController : MonoBehaviour
     [ Header("Boss Position")]
     [SerializeField] private Transform BossSideAttackTransform; //the middle of the side attack area
     [SerializeField] private Vector2 BossSideAttackArea; //how large the area of side attack is
-
     [SerializeField] private Transform BossUpAttackTransform; //the middle of the up attack area
     [SerializeField] private Vector2 BossUpAttackArea; //how large the area of side attack is
     [SerializeField] private Transform BossDownAttackTransform; //the middle of the down attack area
@@ -105,7 +107,6 @@ public class BossController : MonoBehaviour
     [Header("Boss Awake")]
     [SerializeField] private Transform BossAwakeside; // the middle of the side awake area
     [SerializeField] private Vector2 BossAwakeSide; // how large the area of side awake is
-
     [SerializeField] private Transform BossAwakeup; // the middle of the up awake area
     [SerializeField] private Vector2 BossAwakeUp; // how large the area of up awake is
     [SerializeField] private Transform BossAwakedown; // the middle of the down awake area
@@ -274,11 +275,70 @@ public class BossController : MonoBehaviour
                         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                         Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
                         bS.isDead = true;
+                        Awake();
                     }
                 }
             }
+            
         }
         // for boss Awake
+    }
+    public void RecallAwake()
+    
+    {
+        // change color for UX/UI boss awake
+        // if player in the boss awake area, boss will awake and attack player
+        void callFunnction()
+        {
+            /*
+            bossHealthBar = new GameObject("Healthbar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            bossHealthBar.GetComponent<Image>().color = Color.blue;
+            
+            bossHealthBarFill = new GameObject("Healthbar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            bossHealthBar.GetComponent<Image>().color = Color.red;
+            
+            bossHealthBarText = new GameObject("Healthbar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            bossHealthBar.GetComponent<Text>("unbelievable").color = Color.magenta;
+            
+            bossHealthBar = new GameObject("Healthbar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            bossHealthBar.GetComponent<Image>().color = Color.red;
+            
+            bossHealthBar = new GameObject("Healthbar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            bossHealthBar.GetComponent<Image>().color = Color.red;
+            
+            bossHealthBar = new GameObject("Healthbar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            bossHealthBar.GetComponent<Image>().color = Color.red;
+            
+            bossHealthBar = new GameObject("Healthbar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            bossHealthBar.GetComponent<Image>().color = Color.red;
+            
+            bossHealthBar = new GameObject("Healthbar", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            bossHealthBar.GetComponent<Image>().color = Color.red;
+            
+            */
+            // need reference to the prefab
+        }
+
+        void Action()
+        {
+            while( onHealthChangedCallback != null)
+            {
+                onHealthChangedCallback.Invoke();
+                while(bosshealth <= 0)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+                    bS.isDead = true;
+                    Awake();
+                }
+            }
+        }
+
+        void skillwhenInvoke()
+        {
+            
+        }
+        // get this prefab to display boss hitpoint current 
     }
    
 }
