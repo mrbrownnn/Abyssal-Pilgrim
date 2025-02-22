@@ -9,6 +9,8 @@ using UnityEngine.Playables;
 using UnityEditor.Experimental.GraphView;
 using System.Runtime.CompilerServices;
 using UnityEditor.Rendering;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -123,6 +125,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float manaSpellCost = 0.3f;
     [SerializeField] float timeBetweenCast = 0.5f;
     float timeSinceCast;
+    // set limit time when spam skill continously
     [SerializeField] float spellDamage; //upspellexplosion and downspellfireball
     [SerializeField] float downSpellForce; // khai báo lực đẩy khi cast down spell
     //spell cast objects
@@ -134,9 +137,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float moveSpeedupSpell;
     // maintaince variables
-    [Space(5)]
-
-
+    
+    /// <summary>
+    /// //////////////////////
+    /// </summary>
     [HideInInspector] public PlayerStateList pState;
     private Animator anim;
     private Rigidbody2D rb;
@@ -188,7 +192,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         GetInputs();
         UpdateJumpVariables();
@@ -245,7 +249,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Walking", rb.velocity.x != 0 && Grounded());
     }
 
-    void StartDash()
+    protected void StartDash()
     {
         if (Input.GetButtonDown("Dash") && canDash && !dashed)
         {
@@ -274,10 +278,12 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
 
-    void Attack()
+    protected void Attack()
     {
         timeSinceAttck += Time.deltaTime;
         if (attack && timeSinceAttck >= timeBetweenAttack)
+            // add feature cooldown variable timebwattk when player uplever/ up skill
+            // can be setting in Editor
         // if the player is attacking and the time since the last attack is greater than the time between attacks
         {
             timeSinceAttck = 0;
@@ -587,6 +593,25 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.35f);
         anim.SetBool("Casting", false);
         pState.casting = false;
+        /*
+    try
+    {
+        downSpellFireball.SetActive(true);
+    }
+    catch
+    {
+        // if downspell not working
+        Mana += manaSpellCost;
+        anim.SetBool("Casting", false);
+        pState.casting = false;
+        IEnumerator enumerator = CastCoroutine();
+        while (enumerator.MoveNext())
+        {
+            yield break;
+        }
+    }
+    // using for try catch when downspell not working+
+    */
     }
 
     // default settings for cast spell, include upspell downspell and side spell
@@ -630,20 +655,22 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
 
                 pState.jumping = true;
+                pState.jumpOnce = true;
                 // jump a first time
             }
-            else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump") && TimetodeployedSecondjump <= 0)
+            else if (!Grounded() && Input.GetButtonDown("Jump") && pState.jumpOnce ==true)
+                // adding conditional when player have ability double jump
             {
                 pState.jumping = true;
-
-                airJumpCounter++;
-
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce);
-                pState.JumpSecondTime = true;
-                // set bool to jump a second time
-                TimetodeployedSecondjump -= Time.deltaTime; // not working, need to fix
-                // if player deployed the secondtime, the time will be reset
+                pState.jumpOnce = false;
             }
+            /*
+             when active ability
+            pState.JumpSecondTime = true;
+            */
+            pState.jumping = false;
+        
             // need this scripts if adding layer watermask in deployed game
             // if player underwater, the player will jump lower than normal, move slower than normal
             // player can jump two times in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
@@ -676,7 +703,7 @@ public class PlayerController : MonoBehaviour
 
             pState.jumping = false;
         }
-        // player can be jumping two time in the air, so this can be used like skill, can be unlocked when player defeat the boss/lever up
+        // player can be jumping two time in the air, so this can be used like skill, can be unlocked when player defeat the boss/level up
         anim.SetBool("Jumping", !Grounded());
     }
 
@@ -722,6 +749,6 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter--;
         }
         */
-        // adding jump buffer and coyote time, help the player to jump easiera
+        // adding jump buffer and coyote time, help the player to jump easier
     }
 }
